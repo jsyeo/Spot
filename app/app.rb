@@ -3,6 +3,7 @@ require 'models/spotify'
 require 'logger'
 require 'json'
 require 'rspotify'
+require 'shellwords'
 
 module Spot
   class App < Sinatra::Base
@@ -150,7 +151,7 @@ module Spot
     end
 
     put '/airplay' do
-      deviceName = params[:atv].to_s.strip
+      deviceName = Shellwords.escape(params[:atv].to_s.strip)
       `./script/airplay "#{deviceName}"`
       "Airplay set to #{deviceName}."
     end
